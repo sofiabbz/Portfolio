@@ -60,7 +60,7 @@ export const heroCode: Localized = {
   nome: "Sofia Bezerra",
   faz: "dev + arte",
   stack: ["React", "TypeScript", "Node.js"],
-  status: "em busca de uma vaga júnior"
+  status: "em busca de uma vaga"
 };`,
   en: `const sofia: Dev = {
   name: "Sofia Bezerra",
@@ -77,8 +77,8 @@ export const about = {
   },
   formTitle: { pt: 'Vamos conversar.', en: "Let's talk." },
   formIntro: {
-    pt: 'Deixe uma mensagem. Ela fica guardada com segurança e eu leio assim que puder.',
-    en: "Leave a message. It's stored safely and I'll read it as soon as I can.",
+    pt: 'Deixe uma mensagem para batermos um papo! Ela fica guardada com segurança e eu leio assim que puder.',
+    en: "Leave a message for a chat! It's stored safely and I'll read it as soon as I can.",
   },
 } as const
 
@@ -92,7 +92,7 @@ export interface ExperienceEntry {
   bullets: Localized<ReadonlyArray<string>>
 }
 
-// Mais recente primeiro. Datas do HFA confirmadas pelo currículo (Out/2023 — Out/2026).
+// Mais recente primeiro. Datas do HFA confirmadas pelo currículo (Mar/2025 — Out/2026).
 export const experience: ReadonlyArray<ExperienceEntry> = [
   {
     id: 'dev-web',
@@ -105,12 +105,12 @@ export const experience: ReadonlyArray<ExperienceEntry> = [
       pt: [
         'Construindo apps reais com React, TypeScript e Node.js.',
         'Explorando interfaces, integrações e ideias do conceito ao deploy.',
-        'Em busca da primeira vaga júnior em desenvolvimento.',
+        
       ],
       en: [
         'Building real apps with React, TypeScript and Node.js.',
         'Exploring interfaces, integrations and ideas from concept to deploy.',
-        'Looking for my first junior developer role.',
+        
       ],
     },
   },
@@ -119,7 +119,7 @@ export const experience: ReadonlyArray<ExperienceEntry> = [
     hash: '5e9d04b',
     title: { pt: 'Estagiária de Suporte Técnico em TI', en: 'IT Technical Support Intern' },
     org: { pt: 'Hospital das Forças Armadas (HFA) · Brasília/DF', en: 'Hospital das Forças Armadas (HFA) · Brasília, Brazil' },
-    period: { pt: 'Out/2023 → Out/2026', en: 'Mar 2025 → Oct 2026' },
+    period: { pt: 'Mar/2025 → Out/2026', en: 'Mar 2025 → Oct 2026' },
     current: false,
     bullets: {
       pt: [
@@ -163,8 +163,8 @@ export const projects: ReadonlyArray<Project> = [
     },
     accent: 'signal',
     problem: {
-      pt: 'Informação sobre biomas e espécies ameaçadas fica espalhada e pouco visual para quem não é especialista.',
-      en: 'Information about biomes and endangered species is scattered and rarely visual for non-specialists.',
+      pt: 'Informação sobre biomas e espécies ameaçadas são limitadas para quem não tem conhecimento e muito menos acesso a tais informações.',
+      en: 'Information about biomes and endangered species is limited for those without knowledge, much less access to such information.',
     },
     solution: {
       pt: 'SPA em React 19 + TypeScript integrada ao Supabase, com mapa SVG dos seis biomas, busca e filtros dinâmicos.',
@@ -188,8 +188,8 @@ export const projects: ReadonlyArray<Project> = [
     },
     accent: 'ember',
     problem: {
-      pt: 'No suporte de TI, chamados sem rastreio claro viram retrabalho e reincidência.',
-      en: 'In IT support, tickets without clear tracking turn into rework and recurring issues.',
+      pt: 'No suporte de TI, chamados com poucas informações se tornam retrabalho e reincidência de problemas.',
+      en: 'In IT support, tickets with limited information result in repetitive work and recurring problems.',
     },
     solution: {
       pt: 'Interfaces separadas para cliente e técnico, API em Express e modelagem com Prisma sobre PostgreSQL.',
@@ -332,15 +332,15 @@ export const photos: ReadonlyArray<Photo> = [
   {
     id: 'f6',
     src: '/photos/foto-06.jpg',
-    alt: { pt: 'Retrato: homem tatuado olha por cima do ombro, parede clara ao fundo', en: 'Portrait: a tattooed man looks over his shoulder, light wall behind' },
+    alt: { pt: 'Retrato: homem olha por cima do ombro, parede clara ao fundo', en: 'Portrait: a man looks over his shoulder, light wall behind' },
     caption: { pt: 'olhar por cima do ombro', en: 'looking over the shoulder' },
   },
 ]
 
 export const photography = {
   intro: {
-    pt: 'Além do código, a fotografia é outra forma de expressar minha imaginação e olhar artístico.',
-    en: 'Beyond code, photography is another way I express my imagination and artistic eye.',
+    pt: 'Além do código, tirar fotos é uma maneira de expressar minha criatividade e olhar artístico.',
+    en: 'Beyond the code, taking photos is a way to express my creativity and artistic eye.',
   },
   count: { pt: 'A galeria tem {n} imagens.', en: 'The gallery has {n} images.' },
 } as const

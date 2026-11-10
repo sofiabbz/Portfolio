@@ -62,8 +62,8 @@ export const ui = {
   },
   hero: {
     tagsLabel: { pt: 'Áreas de atuação', en: 'Areas of work' },
-    devArtist: { pt: 'dev + artista', en: 'dev + artist' },
-    starHint: { pt: 'psst... passa o mouse aqui', en: 'psst... hover here' },
+    devArtist: { pt: 'dev + arte', en: 'dev + art' },
+    starHint: { pt: 'pss... passa o mouse aqui rs', en: 'pss... hover here rs' },
     codeLabel: { pt: 'Código em', en: 'Code in' },
   },
   experience: {
