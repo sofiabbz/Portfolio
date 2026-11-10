@@ -55,7 +55,7 @@ export function StarHint() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute top-[12%] right-[6%] z-10 hidden w-[240px] text-ember md:block xl:w-[300px]"
+      className="pointer-events-none absolute top-[30%] right-[-5%] z-10 hidden w-[240px] text-ember md:block xl:w-[300px]"
     >
       <motion.p
         className="font-hand -rotate-6 text-2xl leading-tight md:text-3xl"
