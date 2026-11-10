@@ -10,11 +10,22 @@ npm run dev        # http://localhost:3000
 npm run test       # testes unitários (Vitest + Testing Library)
 npm run smoke      # (com o dev rodando) checagem de ponta a ponta no Chrome instalado + screenshots
 npm run typecheck  # tsc --noEmit
-npm run build      # gera dist/client (assets) e dist/server/server.js (handler fetch)
-npm run start      # serve o build localmente (vite preview)
+npm run build      # gera .output/ (Nitro: public/ + server/index.mjs)
+npm run start      # roda o build localmente (node .output/server/index.mjs)
+npm run check:supabase  # confere tabelas, função de rate limit e insert usando o .env
 ```
 
-Para deploy na Vercel, basta importar o repositório: o TanStack Start é detectado e `dist/server/server.js` vira a função de servidor. Configure `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` nas variáveis de ambiente do projeto.
+## Deploy na Vercel (passo a passo)
+
+O projeto usa o plugin `nitro/vite` (em `vite.config.ts`), que é o que a Vercel espera de um app TanStack Start. Node 24+ é obrigatório (`engines` no `package.json`).
+
+1. **Supabase** — crie o projeto em supabase.com, abra *SQL Editor*, cole o conteúdo de `supabase/migrations/0001_contact_submissions.sql` e execute. Em *Project Settings → API* copie a *Project URL* e a chave *service_role* (secret).
+2. **Teste local** — copie `.env.example` para `.env`, preencha, e rode `npm run check:supabase`. Tem que terminar com "Tudo certo". Depois `npm run dev` e envie uma mensagem pelo formulário; confira em *Table Editor → contact_submissions* e apague a linha de teste.
+3. **GitHub** — `git add -A && git commit -m "chore: deploy" && git push`. O `.env` nunca sobe (está no `.gitignore`).
+4. **Vercel** — em vercel.com/new importe o repositório. Confirme *Framework Preset: TanStack Start* (se não aparecer, selecione manualmente). Em *Environment Variables* adicione `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` (sem prefixo `VITE_`, marcadas para Production e Preview). Em *Settings → General → Node.js Version* escolha 24.x. Clique em *Deploy*.
+5. **Verificação** — abra a URL gerada, envie uma mensagem real pelo formulário, confira a linha no Supabase e apague-a. Se o formulário disser "não está configurado", as variáveis não chegaram: confira nomes/ambientes e faça *Redeploy*.
+
+Toda vez que você der `git push` na branch principal, a Vercel publica de novo. Mudou uma variável de ambiente? Precisa de *Redeploy* (deploys antigos mantêm os valores antigos).
 
 ## Estrutura
 
@@ -100,10 +111,7 @@ Sem `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` no `.env`, o formulário respon
 
 ### Configurando o Supabase
 
-1. Crie um projeto em supabase.com.
-2. Rode `supabase/migrations/0001_contact_submissions.sql` no SQL Editor.
-3. Copie `.env.example` para `.env` e preencha URL + service_role key (Settings → API).
-4. Mensagens ficam em **Table Editor → contact_submissions**. Ninguém além da `service_role` consegue ler.
+Veja "Deploy na Vercel" acima. Mensagens ficam em **Table Editor → contact_submissions**; ninguém além da `service_role` consegue ler. `npm run check:supabase` valida tudo antes de publicar.
 
 ## Fotos
 

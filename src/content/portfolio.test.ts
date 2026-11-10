@@ -15,7 +15,9 @@ describe('conteúdo', () => {
     expect(experience[0]?.current).toBe(true)
     expect(experience[0]?.title.pt).toBe('Desenvolvimento Web')
     expect(experience[0]?.title.en).toBe('Web Development')
-    expect(experience[1]?.period.pt).toBe('Out/2023 → Out/2026')
+    // Datas são dela e mudam; só garantimos o formato "início → fim" nos dois idiomas
+    expect(experience[1]?.period.pt).toMatch(/→/)
+    expect(experience[1]?.period.en).toMatch(/→/)
   })
 
   it('projetos sem demo confirmada ficam com demoUrl nulo', () => {
