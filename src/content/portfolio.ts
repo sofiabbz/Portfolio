@@ -331,16 +331,16 @@ export const photos: ReadonlyArray<Photo> = [
   },
   {
     id: 'f6',
-    src: '/photos/foto-06.jpg',
-    alt: { pt: 'Retrato: homem olha por cima do ombro, parede clara ao fundo', en: 'Portrait: a man looks over his shoulder, light wall behind' },
-    caption: { pt: 'olhar por cima do ombro', en: 'looking over the shoulder' },
+    src: '/photos/foto-06.jpeg',
+    alt: { pt: 'Retrato: homem posando para marca de roupas, parede clara ao fundo', en: 'Portrait:  man posing for a clothing brand, with a light-colored wall in the background' },
+    caption: { pt: 'posando', en: 'posing' },
   },
 ]
 
 export const photography = {
   intro: {
-    pt: 'Além do código, tirar fotos é uma maneira de expressar minha criatividade e olhar artístico.',
-    en: 'Beyond the code, taking photos is a way to express my creativity and artistic eye.',
+    pt: 'Além do código, tirar fotos é uma maneira que gosto muuuito de expressar minha criatividade e olhar artístico.',
+    en: 'Beyond the code, taking photos is a way that I really enjoy to express my creativity and artistic eye.',
   },
   count: { pt: 'A galeria tem {n} imagens.', en: 'The gallery has {n} images.' },
 } as const
