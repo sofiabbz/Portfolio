@@ -1,0 +1,246 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------
+   Tokens semânticos. Os NOMES descrevem o papel (ink = fundo, cream =
+   texto principal, sand = dourado de destaque...). O tema claro reatribui
+   os mesmos nomes, então os componentes nunca precisam saber qual tema
+   está ativo: eles só usam bg-ink, text-cream, border-sand etc.
+   ------------------------------------------------------------------ */
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --ink: oklch(0.145 0.018 200);
+  --panel: oklch(0.215 0.028 195);
+  --sand: oklch(0.78 0.08 90);
+  --sand-deep: oklch(0.66 0.08 80);
+  --rust: oklch(0.44 0.13 32);
+  --ember: oklch(0.64 0.17 36);
+  --cream: oklch(0.92 0.06 92);
+  --signal: oklch(0.76 0.12 165);
+  --signal-bg: oklch(0.27 0.045 170);
+  --dim: oklch(0.6 0.03 150);
+  /* Texto sobre fundo ferrugem/dourado: no escuro é o creme; no claro vira petróleo */
+  --on-rust: oklch(0.95 0.04 92);
+  --on-sand: oklch(0.16 0.02 200);
+  /* Texto da faixa do topo (ferrugem profunda sobre dourado, legível a 11px) */
+  --bar-fg: oklch(0.38 0.13 32);
+  --grain-opacity: 0.07;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --ink: oklch(0.965 0.012 150);
+  --panel: oklch(0.915 0.022 160);
+  --sand: oklch(0.52 0.11 80);
+  --sand-deep: oklch(0.44 0.1 75);
+  --rust: oklch(0.62 0.15 34);
+  --ember: oklch(0.52 0.18 34);
+  --cream: oklch(0.2 0.025 200);
+  --signal: oklch(0.42 0.12 165);
+  --signal-bg: oklch(0.86 0.05 165);
+  --dim: oklch(0.45 0.03 150);
+  --on-rust: oklch(0.14 0.02 200);
+  --on-sand: oklch(0.98 0.01 90);
+  --bar-fg: oklch(0.98 0.01 90);
+  --grain-opacity: 0.045;
+}
+
+/* Mapeia os tokens para utilitários do Tailwind v4 (bg-ink, text-sand, font-display...).
+   "inline" faz o utilitário usar var(--ink) diretamente, então trocar o tema
+   troca a cor sem gerar classes duplicadas. */
+@theme inline {
+  --color-ink: var(--ink);
+  --color-panel: var(--panel);
+  --color-sand: var(--sand);
+  --color-sand-deep: var(--sand-deep);
+  --color-rust: var(--rust);
+  --color-ember: var(--ember);
+  --color-cream: var(--cream);
+  --color-signal: var(--signal);
+  --color-signal-bg: var(--signal-bg);
+  --color-dim: var(--dim);
+  --color-on-rust: var(--on-rust);
+  --color-on-sand: var(--on-sand);
+  --color-bar-fg: var(--bar-fg);
+
+  --font-display: 'Archivo', 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', monospace;
+  --font-hand: 'Caveat', 'Segoe Script', cursive;
+
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+}
+
+@layer base {
+  html {
+    background: var(--ink);
+    color: var(--cream);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: auto; /* Lenis cuida do scroll suave; o nativo entraria em conflito */
+  }
+
+  body {
+    min-height: 100dvh;
+    overflow-x: hidden; /* garantia contra overflow horizontal global */
+  }
+
+  ::selection {
+    background: var(--sand);
+    color: var(--on-sand);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--sand);
+    outline-offset: 3px;
+  }
+
+  button,
+  input,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* Títulos display usam o eixo de largura 125 da Archivo variável */
+  .font-display {
+    font-variation-settings: 'wdth' 125;
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer components {
+  /* Textura de filme: ruído SVG fixo sobre a página, bem sutil. pointer-events:none
+     para não interferir com cliques; z-index acima do conteúdo e abaixo dos modais. */
+  .film-grain::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    pointer-events: none;
+    opacity: var(--grain-opacity);
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+  }
+
+  /* Linha fina com o creme a 18%: usada em bordas de cards e divisórias */
+  .hairline {
+    border-color: color-mix(in oklch, var(--cream) 18%, transparent);
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  /* Cursor de bloco piscante do editor e do terminal */
+  .caret-block {
+    display: inline-block;
+    width: 0.6em;
+    height: 1.15em;
+    vertical-align: text-bottom;
+    background: var(--sand);
+    animation: caret-blink 1s steps(2, start) infinite;
+  }
+
+  @keyframes caret-blink {
+    to {
+      visibility: hidden;
+    }
+  }
+
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 color-mix(in oklch, var(--signal) 60%, transparent);
+    }
+    70% {
+      box-shadow: 0 0 0 7px transparent;
+    }
+  }
+
+  .pulse-dot {
+    animation: pulse-dot 2s ease-out infinite;
+  }
+
+  /* Cursor "mira de câmera": só ativo quando o ponteiro é preciso (mouse/trackpad)
+     e sem redução de movimento. Em touch o cursor nativo permanece intocado. */
+  @media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    html.custom-cursor,
+    html.custom-cursor a,
+    html.custom-cursor button,
+    html.custom-cursor [role='button'],
+    html.custom-cursor input,
+    html.custom-cursor textarea {
+      cursor: none;
+    }
+  }
+
+  /* "Modo recrutador": glitch rápido no site inteiro por 2.4s (sudo contratar) */
+  @keyframes recruiter-glitch {
+    0%,
+    100% {
+      filter: none;
+      transform: none;
+    }
+    20% {
+      filter: hue-rotate(35deg) contrast(1.25);
+      transform: translate(2px, -1px) skewX(-0.8deg);
+    }
+    40% {
+      filter: invert(0.08) saturate(1.4);
+      transform: translate(-2px, 1px);
+    }
+    60% {
+      filter: hue-rotate(-25deg);
+      transform: translate(1px, 2px) skewX(0.6deg);
+    }
+    80% {
+      filter: contrast(1.4);
+      transform: translate(-1px, -2px);
+    }
+  }
+
+  html.recruiter-mode body {
+    animation: recruiter-glitch 0.3s steps(2, end) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .caret-block,
+    .pulse-dot {
+      animation: none;
+    }
+    html.recruiter-mode body {
+      animation: none;
+      filter: hue-rotate(35deg);
+    }
+  }
+}
+
+/* @utility (e não uma classe comum) para que variantes como hover:text-outline funcionem */
+@utility text-outline-sand {
+  /* Contorno vazado dourado (BEZERRA) */
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--sand);
+  paint-order: stroke fill;
+}
+
+@utility text-outline {
+  /* Contorno vazado creme (hover nas letras de SOFIA) */
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--cream);
+  paint-order: stroke fill;
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklch, var(--cream) 25%, transparent) transparent;
+  }
+}

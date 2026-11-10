@@ -1,0 +1,13 @@
+node_modules
+dist
+.output
+.nitro
+.tanstack
+.vinxi
+.env
+.env.*
+!.env.example
+*.log
+src/routeTree.gen.ts
+.DS_Store
+smoke-shots
