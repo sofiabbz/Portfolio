@@ -30,6 +30,9 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
       autoRaf: false,
     })
     lenisRef.current = lenis
+    // Os efeitos dos filhos (ex.: boot screen) rodam antes deste: se alguém já
+    // pediu trava, o Lenis recém-criado precisa nascer parado.
+    if (locksRef.current > 0) lenis.stop()
 
     let frame = 0
     const loop = (time: number) => {
@@ -60,12 +63,19 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
     window.scrollTo({ top, behavior: 'auto' })
   }, [])
 
+  // Contador de travas: boot, palette e galeria podem travar ao mesmo tempo, e o
+  // scroll só volta quando TODOS liberarem (um não destrava o outro por engano).
+  const locksRef = useRef(0)
+
   const stop = useCallback(() => {
+    locksRef.current += 1
     lenisRef.current?.stop()
     document.documentElement.style.overflow = 'hidden'
   }, [])
 
   const start = useCallback(() => {
+    locksRef.current = Math.max(0, locksRef.current - 1)
+    if (locksRef.current > 0) return
     document.documentElement.style.overflow = ''
     lenisRef.current?.start()
   }, [])

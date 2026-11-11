@@ -46,8 +46,15 @@ export function BootScreen({ onDone }: BootScreenProps) {
     onDone()
   }
 
+  // Trava o scroll SÓ enquanto a tela está visível. Antes a trava só era liberada
+  // no unmount — que nunca acontece — e o touch do celular ficava bloqueado.
   useEffect(() => {
+    if (!visible) return
     stop()
+    return () => start()
+  }, [visible, stop, start])
+
+  useEffect(() => {
     let seen = false
     try {
       seen = sessionStorage.getItem(BOOT_STORAGE_KEY) === '1'
@@ -88,11 +95,10 @@ export function BootScreen({ onDone }: BootScreenProps) {
     return () => {
       timers.forEach(clearTimeout)
       cancelAnimationFrame(frame)
-      start()
     }
     // `finish` é estável o bastante (usa refs/setters); rodar uma vez por mount.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reducedMotion, stop, start])
+  }, [reducedMotion])
 
   const complete = pct >= 100
 
